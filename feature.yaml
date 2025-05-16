@@ -1,16 +1,27 @@
-name: Feature Pipeline
+name: SonarCloud Scan
 
 on:
   push:
-    branches: [ "main" ]  # or any branch you want to test with
+    branches:
+      - main
 
 jobs:
-  test-self-hosted:
-    runs-on: self-hosted  # this tells GitHub to use your self-hosted EC2 runner
+  sonarcloud:
+    name: SonarCloud
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Say Hello
-        run: echo "Hello from self-hosted runner!"
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          organization: hananali0311  # Replace if different on SonarCloud
+          projectKey: hananali0311_myhtmlapp
+          token: ${{ secrets.SONAR_TOKEN }}

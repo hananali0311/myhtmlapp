@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+      # added
+
 jobs:
   sonarcloud:
     name: SonarCloud
